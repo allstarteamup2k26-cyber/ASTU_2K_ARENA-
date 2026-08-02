@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find Players | All-Star Team-Up 2K Arena</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="logo.png">
+<style>
+  :root{
+    --bg:#000000; --bg-card:#131310; --bg-card-2:#1a1a15; --line:#2e2a1e;
+    --text:#f5f0e0; --muted:#a39c86; --gold-dark:#8a6d1f; --gold:#e0b023; --gold-bright:#ffd966; --silver:#c7c7cf;
+    --grad: linear-gradient(90deg, var(--gold-dark), var(--gold-bright));
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--bg); color:var(--text); font-family:'Barlow', sans-serif; line-height:1.5;}
+  h1,h2,h3{font-family:'Anton'; font-weight:400; letter-spacing:0.5px; text-transform:uppercase;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 20px;}
+  nav{position:sticky; top:0; z-index:50; background:rgba(0,0,0,0.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+  nav .row{max-width:1180px; margin:0 auto; padding:14px 24px; display:flex; align-items:center; justify-content:space-between;}
+  .brand{display:flex; align-items:center; gap:10px; font-family:'Anton'; font-size:16px;}
+  .brand img{height:30px; width:auto;}
+  .backlink{font-size:13px; font-weight:600; color:var(--muted);}
+  .backlink:hover{color:var(--gold);}
+
+  main{padding:50px 0 90px;}
+  .head{text-align:center; margin-bottom:34px;}
+  .eyebrow{
+    display:inline-flex; font-family:'JetBrains Mono'; font-size:12px; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--gold); border:1px solid rgba(224,176,35,0.3); background:rgba(224,176,35,0.08); padding:6px 14px; border-radius:999px; margin-bottom:16px;
+  }
+  .head h1{font-size:clamp(28px,5vw,42px);}
+  .head p{color:var(--muted); margin-top:10px; font-size:15px; max-width:560px; margin-left:auto; margin-right:auto;}
+
+  .filters{
+    display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-bottom:36px;
+  }
+  .filters select{
+    background:var(--bg-card); border:1px solid var(--line); color:var(--text); padding:11px 14px;
+    border-radius:8px; font-size:13px; font-family:'JetBrains Mono';
+  }
+
+  .tabs{display:flex; gap:10px; justify-content:center; margin-bottom:34px;}
+  .tab{
+    padding:11px 22px; border-radius:999px; border:1px solid var(--line); font-family:'JetBrains Mono';
+    font-size:12.5px; text-transform:uppercase; letter-spacing:0.5px; cursor:pointer; color:var(--muted);
+  }
+  .tab.active{border-color:var(--gold); color:var(--gold-bright); background:rgba(224,176,35,0.08);}
+
+  .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+  @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:600px){.grid{grid-template-columns:1fr;}}
+
+  .player-card{background:var(--bg-card); border:1px solid var(--line); border-radius:12px; padding:22px;}
+  .player-card .gt{font-family:'Anton'; font-size:19px; margin-bottom:6px;}
+  .player-card .meta{font-family:'JetBrains Mono'; font-size:11px; color:var(--muted); margin-bottom:14px; display:flex; flex-wrap:wrap; gap:6px;}
+  .player-card .meta span{background:var(--bg-card-2); border:1px solid var(--line); padding:3px 9px; border-radius:5px;}
+  .player-card .contact-btn{
+    display:block; text-align:center; background:var(--grad); color:#101010; font-weight:800; font-size:12.5px;
+    text-transform:uppercase; letter-spacing:0.4px; padding:11px; border-radius:7px; margin-top:4px; cursor:pointer; border:none; width:100%;
+  }
+
+  .team-card{background:var(--bg-card); border:1px solid var(--line); border-radius:12px; padding:22px;}
+  .team-card .tname{font-family:'Anton'; font-size:19px; margin-bottom:4px;}
+  .team-card .spots{font-family:'JetBrains Mono'; font-size:11px; color:var(--gold-bright); margin-bottom:12px;}
+  .team-card .roster{display:flex; flex-direction:column; gap:5px; margin-bottom:14px;}
+  .team-card .roster div{font-size:13px; color:#d5d2c4;}
+  .team-card .roster div.empty{color:var(--muted); font-style:italic;}
+
+  .empty-state{text-align:center; padding:70px 20px; color:var(--muted);}
+  .empty-state .ico{font-size:36px; margin-bottom:14px;}
+
+  .cta-strip{
+    background:var(--bg-card); border:1px solid var(--line); border-radius:14px; padding:26px; text-align:center; margin-bottom:40px;
+  }
+  .cta-strip h3{font-size:18px; margin-bottom:8px;}
+  .cta-strip p{color:var(--muted); font-size:13.5px; margin-bottom:16px;}
+  .btn{
+    display:inline-block; padding:13px 26px; border-radius:8px; font-weight:800; font-size:13px; text-transform:uppercase;
+    letter-spacing:0.5px; background:var(--grad); color:#101010; border:none; cursor:pointer;
+  }
+  footer{text-align:center; padding:30px 24px; color:var(--muted); font-size:12px;}
+</style>
+</head>
+<body>
+
+<nav><div class="row">
+  <div class="brand"><img src="logo.png" alt="Logo"> ALL-STAR TEAM-UP</div>
+  <a href="index.html" class="backlink">← Back to Tournaments</a>
+</div></nav>
+
+<main>
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Find Players</span>
+      <h1>Build Your Squad</h1>
+      <p>Solo players looking for a team, and teams short a player or two. Find your five, register together, and lock in your tournament.</p>
+    </div>
+
+    <div class="cta-strip">
+      <h3>Post Yourself to the Board</h3>
+      <p>Solo player looking for a team, or a captain short a player? Post here so others can find you.</p>
+      <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:10px; text-align:left; max-width:520px; margin:0 auto 14px;">
+        <select id="postType" style="grid-column:span 2; background:var(--bg-card-2); border:1px solid var(--line); color:var(--text); padding:11px 14px; border-radius:8px; font-size:13px;">
+          <option value="solo">I'm a solo player looking for a team</option>
+          <option value="captain">I'm a captain with an open roster spot</option>
+        </select>
+        <input id="postGamertag" placeholder="Gamertag (or team name)" style="background:var(--bg-card-2); border:1px solid var(--line); color:var(--text); padding:11px 14px; border-radius:8px; font-size:13px;">
+        <input id="postContact" placeholder="Contact (Discord, email, phone)" style="background:var(--bg-card-2); border:1px solid var(--line); color:var(--text); padding:11px 14px; border-radius:8px; font-size:13px;">
+        <select id="postTournament" style="background:var(--bg-card-2); border:1px solid var(--line); color:var(--text); padding:11px 14px; border-radius:8px; font-size:13px;">
+          <option value="2k26-ps5">NBA 2K26 — PS5</option>
+          <option value="2k26-ps4">NBA 2K26 — PS4</option>
+          <option value="2k26-xbox-series">NBA 2K26 — Xbox Series X|S</option>
+          <option value="2k26-xbox-one">NBA 2K26 — Xbox One</option>
+          <option value="2k25-ps">NBA 2K25 — PS5 & PS4</option>
+          <option value="2k25-xbox-series">NBA 2K25 — Xbox Series X|S</option>
+          <option value="2k25-xbox-one">NBA 2K25 — Xbox One</option>
+        </select>
+        <select id="postPlatform" style="background:var(--bg-card-2); border:1px solid var(--line); color:var(--text); padding:11px 14px; border-radius:8px; font-size:13px;">
+          <option value="PS5">PlayStation 5</option>
+          <option value="PS4">PlayStation 4</option>
+          <option value="Xbox Series X|S">Xbox Series X|S</option>
+          <option value="Xbox One">Xbox One</option>
+        </select>
+      </div>
+      <button class="btn" onclick="postToBoard()">Post to Board</button>
+      <div id="postMsg" style="margin-top:12px; font-size:13px;"></div>
+      <p style="margin-top:16px;">Already know your full 5? <a href="register.html" style="color:var(--gold);">Register your team here</a> instead.</p>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" id="tabSolo" onclick="switchTab('solo')">Solo Players</div>
+      <div class="tab" id="tabTeams" onclick="switchTab('teams')">Captains Needing Players</div>
+    </div>
+
+    <div class="filters">
+      <select id="fTournament" onchange="render()">
+        <option value="">All Tournaments</option>
+        <option value="2k26-ps5">NBA 2K26 — PS5</option>
+        <option value="2k26-ps4">NBA 2K26 — PS4</option>
+        <option value="2k26-xbox-series">NBA 2K26 — Xbox Series X|S</option>
+        <option value="2k26-xbox-one">NBA 2K26 — Xbox One</option>
+        <option value="2k25-ps">NBA 2K25 — PS5 & PS4</option>
+        <option value="2k25-xbox-series">NBA 2K25 — Xbox Series X|S</option>
+        <option value="2k25-xbox-one">NBA 2K25 — Xbox One</option>
+      </select>
+      <select id="fPlatform" onchange="render()">
+        <option value="">All Platforms</option>
+        <option value="PS5">PlayStation 5</option>
+        <option value="PS4">PlayStation 4</option>
+        <option value="Xbox Series X|S">Xbox Series X|S</option>
+        <option value="Xbox One">Xbox One</option>
+      </select>
+    </div>
+
+    <div id="content"></div>
+  </div>
+</main>
+
+<footer>Designed by Elijah · © 2026 All-Star Team-Up 2K Arena</footer>
+
+<script>
+  const API_BASE = "https://astu-2-k-tournaments--allstarteamup2k.replit.app/api";
+
+  const tournamentNames = {
+    '2k26-ps5':'2K26 PS5', '2k26-ps4':'2K26 PS4', '2k26-xbox-series':'2K26 Xbox Series X|S',
+    '2k26-xbox-one':'2K26 Xbox One', '2k25-ps':'2K25 PS5 & PS4', '2k25-xbox-series':'2K25 Xbox Series X|S',
+    '2k25-xbox-one':'2K25 Xbox One'
+  };
+
+  let activeTab = 'solo';
+  let LFG_CACHE = [];
+
+  function switchTab(t){
+    activeTab = t;
+    document.getElementById('tabSolo').classList.toggle('active', t==='solo');
+    document.getElementById('tabTeams').classList.toggle('active', t==='teams');
+    render();
+  }
+
+  async function loadBoard(){
+    const content = document.getElementById('content');
+    content.innerHTML = '<div class="empty-state">Loading board…</div>';
+    try {
+      const res = await fetch(API_BASE + '/lfg');
+      LFG_CACHE = res.ok ? await res.json() : [];
+    } catch(e){
+      LFG_CACHE = [];
+      content.innerHTML = '<div class="empty-state">Could not load the board — check your connection and refresh.</div>';
+      return;
+    }
+    render();
+  }
+
+  function render(){
+    const fT = document.getElementById('fTournament').value;
+    const fP = document.getElementById('fPlatform').value;
+    const content = document.getElementById('content');
+
+    let posts = LFG_CACHE.filter(p => p.postedBy === (activeTab === 'solo' ? 'solo' : 'captain'));
+    if(fT) posts = posts.filter(p => p.tournamentId === fT);
+    if(fP) posts = posts.filter(p => p.platform === fP);
+
+    if(posts.length === 0){
+      content.innerHTML = activeTab === 'solo'
+        ? '<div class="empty-state"><div class="ico">🎮</div>No solo players listed yet for this filter.<br>Be the first — post yourself above.</div>'
+        : '<div class="empty-state"><div class="ico">👥</div>No teams currently listed as needing players.<br>Captains — post your open spot above.</div>';
+      return;
+    }
+
+    content.innerHTML = '<div class="grid">' + posts.slice().reverse().map(p => `
+      <div class="player-card">
+        <div class="gt">${escapeHtml(p.gamertag || 'Player')}</div>
+        <div class="meta">
+          <span>${tournamentNames[p.tournamentId] || p.tournamentId}</span>
+          <span>${escapeHtml(p.platform)}</span>
+        </div>
+        ${p.note ? `<div style="font-size:13px; color:#d5d2c4; margin-bottom:12px;">${escapeHtml(p.note)}</div>` : ''}
+        <button class="contact-btn" onclick="showContact('${p.id}')">View Contact Info</button>
+      </div>
+    `).join('') + '</div>';
+  }
+
+  function showContact(id){
+    const entry = LFG_CACHE.find(p => p.id === id);
+    if(entry) alert('Contact: ' + entry.contact + '\n\nReach out directly to coordinate joining the roster.');
+  }
+
+  async function postToBoard(){
+    const msg = document.getElementById('postMsg');
+    const payload = {
+      postedBy: document.getElementById('postType').value,
+      gamertag: document.getElementById('postGamertag').value.trim(),
+      contact: document.getElementById('postContact').value.trim(),
+      tournamentId: document.getElementById('postTournament').value,
+      platform: document.getElementById('postPlatform').value,
+    };
+    if(!payload.gamertag || !payload.contact){
+      msg.style.color = '#ff8a8e';
+      msg.textContent = 'Please fill in both gamertag/team name and contact info.';
+      return;
+    }
+    try {
+      const res = await fetch(API_BASE + '/lfg', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if(!res.ok) throw new Error('failed');
+      msg.style.color = 'var(--gold-bright)';
+      msg.textContent = '✅ Posted! Scroll down to see it on the board.';
+      document.getElementById('postGamertag').value = '';
+      document.getElementById('postContact').value = '';
+      await loadBoard();
+    } catch(e){
+      msg.style.color = '#ff8a8e';
+      msg.textContent = '⚠ Could not post — check your connection and try again.';
+    }
+  }
+
+  function escapeHtml(s){
+    const d = document.createElement('div');
+    d.textContent = s || '';
+    return d.innerHTML;
+  }
+
+  loadBoard();
+</script>
+
+</body>
+</html>
