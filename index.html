@@ -157,6 +157,35 @@
   .cta-band h2{font-size:clamp(26px,5vw,44px); margin-bottom:14px;}
   .cta-band p{color:var(--muted); margin-bottom:28px;}
 
+  /* SKETCH GALLERY */
+  .gallery-section{
+    padding:70px 0; background:#000;
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  }
+  .gallery-grid{
+    display:grid; grid-template-columns:1.3fr 1fr 1fr; grid-template-rows:auto auto; gap:18px;
+  }
+  .gallery-grid .g-large{ grid-row:span 2; }
+  @media(max-width:900px){
+    .gallery-grid{ grid-template-columns:1fr 1fr; grid-template-rows:auto; }
+    .gallery-grid .g-large{ grid-column:span 2; grid-row:auto; }
+  }
+  @media(max-width:560px){
+    .gallery-grid{ grid-template-columns:1fr; }
+    .gallery-grid .g-large{ grid-column:auto; }
+  }
+  .g-frame{
+    position:relative; border-radius:14px; overflow:hidden; border:1px solid var(--line);
+    background:#0d0d09; box-shadow:0 0 0 1px rgba(224,176,35,0.06);
+  }
+  .g-frame img{ width:100%; height:100%; object-fit:cover; display:block; filter:sepia(0.15) saturate(1.05); transition:transform .35s ease; }
+  .g-frame:hover img{ transform:scale(1.04); }
+  .g-frame .g-tag{
+    position:absolute; bottom:0; left:0; right:0; padding:16px 18px 14px;
+    background:linear-gradient(0deg, rgba(0,0,0,0.85), transparent);
+    font-family:'JetBrains Mono'; font-size:11px; letter-spacing:0.5px; color:var(--gold-bright); text-transform:uppercase;
+  }
+
   footer{padding:50px 24px 30px; text-align:center; color:var(--muted); font-size:13px;}
   footer .flinks{display:flex; gap:16px; justify-content:center; margin-bottom:20px; flex-wrap:wrap; font-weight:600; color:var(--text); font-size:13px;}
 </style>
@@ -228,6 +257,34 @@
         <div class="sn">⚖️</div>
         <h4>Fair Competition</h4>
         <p>Solos are balanced onto teams by skill level. Same rules, same settings, same standard for every match — no exceptions, no shortcuts.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="gallery-section">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Old School to New School</span>
+      <h2>Every Era. One Locker Room.</h2>
+      <p>This is the whole point of All-Star Team-Up — Kobe next to Jordan, Iverson next to Carter, prime LeBron next to today's stars. Pick anyone. Any year. Build the squad that never existed.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="g-frame g-large">
+        <img src="assets/sketch-teams.jpg" alt="All-Star Team-Up squads sketched across eras">
+        <div class="g-tag">Six Locker Rooms, Six Eras</div>
+      </div>
+      <div class="g-frame">
+        <img src="assets/sketch-modern.jpg" alt="Current NBA stars sketch">
+        <div class="g-tag">New School</div>
+      </div>
+      <div class="g-frame">
+        <img src="assets/sketch-kobe-jordan.jpg" alt="Kobe Bryant and Michael Jordan sketch">
+        <div class="g-tag">Old School</div>
+      </div>
+      <div class="g-frame" style="grid-column:span 2;">
+        <img src="assets/sketch-iverson-carter.jpg" alt="Allen Iverson and Vince Carter sketch" style="max-height:280px;">
+        <div class="g-tag">Any Era, Any All-Star</div>
       </div>
     </div>
   </div>
