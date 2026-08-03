@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register | All-Star Team-Up 2K Arena</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="logo.png">
+<style>
+  :root{
+    --bg:#000000; --bg-card:#131310; --bg-card-2:#1a1a15; --line:#2e2a1e;
+    --text:#f5f0e0; --muted:#a39c86; --gold-dark:#8a6d1f; --gold:#e0b023; --gold-bright:#ffd966; --silver:#c7c7cf;
+    --ps:#0070d1; --xbox:#107c10; --danger:#e5484d;
+    --grad: linear-gradient(90deg, var(--gold-dark), var(--gold-bright));
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--bg); color:var(--text); font-family:'Barlow', sans-serif; line-height:1.5;}
+  h1,h2,h3{font-family:'Anton'; font-weight:400; letter-spacing:0.5px; text-transform:uppercase;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:720px; margin:0 auto; padding:0 20px;}
+  nav{position:sticky; top:0; z-index:50; background:rgba(0,0,0,0.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+  nav .row{max-width:1180px; margin:0 auto; padding:14px 24px; display:flex; align-items:center; justify-content:space-between;}
+  .brand{display:flex; align-items:center; gap:10px; font-family:'Anton'; font-size:16px;}
+  .brand img{height:30px; width:auto;}
+  .backlink{font-size:13px; font-weight:600; color:var(--muted);}
+  .backlink:hover{color:var(--gold);}
+
+  main{padding:50px 0 90px;}
+  .head{text-align:center; margin-bottom:36px;}
+  .eyebrow{
+    display:inline-flex; font-family:'JetBrains Mono'; font-size:12px; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--gold); border:1px solid rgba(224,176,35,0.3); background:rgba(224,176,35,0.08); padding:6px 14px; border-radius:999px; margin-bottom:16px;
+  }
+  .head h1{font-size:clamp(28px,5vw,42px);}
+  .head p{color:var(--muted); margin-top:10px; font-size:15px;}
+
+  .card{background:var(--bg-card); border:1px solid var(--line); border-radius:14px; padding:28px;}
+  .card + .card{margin-top:20px;}
+
+  label{display:block; font-family:'JetBrains Mono'; font-size:11.5px; text-transform:uppercase; letter-spacing:0.5px; color:var(--muted); margin-bottom:8px;}
+  input, select{
+    width:100%; background:var(--bg-card-2); border:1px solid var(--line); color:var(--text);
+    padding:13px 14px; border-radius:8px; font-size:15px; font-family:'Barlow'; margin-bottom:18px;
+  }
+  input:focus, select:focus{outline:none; border-color:var(--gold);}
+  select{appearance:none; background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%23e0b023" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>'); background-repeat:no-repeat; background-position:right 14px center;}
+
+  .roster-grid{display:flex; flex-direction:column; gap:10px; margin-bottom:6px;}
+  .roster-row{display:grid; grid-template-columns:34px 1fr; gap:10px; align-items:center;}
+  .roster-num{
+    width:34px; height:34px; border-radius:50%; background:var(--grad); color:#101010; font-family:'Anton';
+    font-size:14px; display:flex; align-items:center; justify-content:center;
+  }
+  .roster-row input{margin-bottom:0;}
+
+  .type-toggle{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:22px;}
+  .type-btn{
+    padding:18px; border:1px solid var(--line); border-radius:10px; text-align:center; cursor:pointer;
+    background:var(--bg-card-2); font-weight:800; font-size:14px; text-transform:uppercase; letter-spacing:0.4px;
+    transition:border-color .15s ease;
+  }
+  .type-btn.active{border-color:var(--gold); box-shadow:0 0 0 1px var(--gold) inset; color:var(--gold-bright);}
+  .type-btn .sub{display:block; font-family:'Barlow'; font-weight:500; text-transform:none; font-size:12px; color:var(--muted); margin-top:4px;}
+
+  .btn{
+    width:100%; padding:16px; border-radius:9px; font-weight:800; font-size:14px; text-transform:uppercase;
+    letter-spacing:0.5px; border:none; cursor:pointer; background:var(--grad); color:#101010;
+  }
+  .btn:hover{filter:brightness(1.08);}
+  .btn:disabled{opacity:0.5; cursor:not-allowed;}
+  .btn-ghost{background:transparent; border:1px solid var(--line); color:var(--text);}
+
+  .hidden{display:none !important;}
+  .stepper{display:flex; align-items:center; gap:8px; justify-content:center; margin-bottom:30px;}
+  .step-dot{width:9px; height:9px; border-radius:50%; background:var(--line);}
+  .step-dot.active{background:var(--gold);}
+  .step-line{width:36px; height:1px; background:var(--line);}
+
+  .success{text-align:center; padding:20px 0;}
+  .success .ico{font-size:40px; margin-bottom:14px;}
+  .success h2{font-size:26px; margin-bottom:10px;}
+  .success p{color:var(--muted); font-size:14px; max-width:440px; margin:0 auto 22px;}
+
+  .notice{background:rgba(224,176,35,0.08); border:1px solid rgba(224,176,35,0.3); border-radius:8px; padding:14px 16px; font-size:13px; color:#e8d9a8; margin-bottom:22px;}
+  footer{text-align:center; padding:30px 24px; color:var(--muted); font-size:12px;}
+</style>
+</head>
+<body>
+
+<nav><div class="row">
+  <div class="brand"><img src="logo.png" alt="Logo"> ALL-STAR TEAM-UP</div>
+  <a href="index.html" class="backlink">← Back to Tournaments</a>
+</div></nav>
+
+<main>
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Registration</span>
+      <h1>Register Your Spot</h1>
+      <p>Registration closes August 10, 2026. Only takes a minute — start with your email or phone.</p>
+    </div>
+
+    <div class="stepper">
+      <div class="step-dot active" id="dot1"></div><div class="step-line"></div>
+      <div class="step-dot" id="dot2"></div><div class="step-line"></div>
+      <div class="step-dot" id="dot3"></div>
+    </div>
+
+    <!-- STEP 1: Contact -->
+    <div class="card" id="step1">
+      <label for="contact">Email or Phone Number</label>
+      <input type="text" id="contact" placeholder="you@email.com or (555) 123-4567">
+      <button class="btn" onclick="toStep2()">Continue →</button>
+    </div>
+
+    <!-- STEP 2: Type + Tournament + Platform -->
+    <div class="card hidden" id="step2">
+      <div class="type-toggle">
+        <div class="type-btn active" id="typeTeam" onclick="selectType('team')">
+          Team Captain
+          <span class="sub">Register your full 5-man roster</span>
+        </div>
+        <div class="type-btn" id="typeSolo" onclick="selectType('solo')">
+          Solo Player
+          <span class="sub">We'll place you on a team</span>
+        </div>
+      </div>
+
+      <label for="tournament">Tournament</label>
+      <select id="tournament">
+        <option value="2k26-ps5">NBA 2K26 — PS5</option>
+        <option value="2k26-ps4">NBA 2K26 — PS4</option>
+        <option value="2k26-xbox-series">NBA 2K26 — Xbox Series X|S</option>
+        <option value="2k26-xbox-one">NBA 2K26 — Xbox One</option>
+        <option value="2k25-ps">NBA 2K25 — PS5 & PS4</option>
+        <option value="2k25-xbox-series">NBA 2K25 — Xbox Series X|S</option>
+        <option value="2k25-xbox-one">NBA 2K25 — Xbox One</option>
+      </select>
+
+      <label for="platform">Platform</label>
+      <select id="platform">
+        <option value="PS5">PlayStation 5</option>
+        <option value="PS4">PlayStation 4</option>
+        <option value="Xbox Series X|S">Xbox Series X|S</option>
+        <option value="Xbox One">Xbox One</option>
+      </select>
+
+      <button class="btn" onclick="toStep3()">Continue →</button>
+      <button class="btn btn-ghost" style="margin-top:10px;" onclick="toStep1()">← Back</button>
+    </div>
+
+    <!-- STEP 3: Roster -->
+    <div class="card hidden" id="step3">
+      <div id="teamFields">
+        <label for="teamName">Team Name</label>
+        <input type="text" id="teamName" placeholder="e.g. Locker Room Legends">
+
+        <label>Roster — 5 Gamertags</label>
+        <div class="roster-grid">
+          <div class="roster-row"><div class="roster-num">1</div><input type="text" placeholder="Captain's Gamertag" id="gt1"></div>
+          <div class="roster-row"><div class="roster-num">2</div><input type="text" placeholder="Player 2 Gamertag" id="gt2"></div>
+          <div class="roster-row"><div class="roster-num">3</div><input type="text" placeholder="Player 3 Gamertag" id="gt3"></div>
+          <div class="roster-row"><div class="roster-num">4</div><input type="text" placeholder="Player 4 Gamertag" id="gt4"></div>
+          <div class="roster-row"><div class="roster-num">5</div><input type="text" placeholder="Player 5 Gamertag" id="gt5"></div>
+        </div>
+        <div style="height:10px;"></div>
+      </div>
+
+      <div id="soloFields" class="hidden">
+        <label for="soloGt">Your Gamertag</label>
+        <input type="text" id="soloGt" placeholder="Your Gamertag">
+        <div class="notice">🤝 You'll be placed on a balanced 5-man team by skill level. Watch your email/phone for your team assignment before the bracket is released.</div>
+      </div>
+
+      <button class="btn" id="submitBtn" onclick="submitRegistration()">Complete Registration</button>
+      <button class="btn btn-ghost" style="margin-top:10px;" onclick="toStep2()">← Back</button>
+      <div id="errorMsg" style="display:none; margin-top:14px; padding:12px 14px; border-radius:8px; background:rgba(229,72,77,0.1); border:1px solid rgba(229,72,77,0.3); color:#ff8a8e; font-size:13px;"></div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="card hidden" id="stepSuccess">
+      <div class="success">
+        <div class="ico">🏀</div>
+        <h2>You're Registered!</h2>
+        <p id="successMsg">Your info has been saved. Complete payment via the link on your tournament page to lock your spot.</p>
+        <a href="index.html" class="btn" style="display:inline-block; width:auto; padding:14px 28px;">Back to Tournaments</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>Designed by Elijah · © 2026 All-Star Team-Up 2K Arena</footer>
+
+<script>
+  let regType = 'team';
+
+  function selectType(t){
+    regType = t;
+    document.getElementById('typeTeam').classList.toggle('active', t==='team');
+    document.getElementById('typeSolo').classList.toggle('active', t==='solo');
+  }
+
+  function setDots(step){
+    for(let i=1;i<=3;i++){
+      document.getElementById('dot'+i).classList.toggle('active', i<=step);
+    }
+  }
+
+  function toStep1(){
+    document.getElementById('step1').classList.remove('hidden');
+    document.getElementById('step2').classList.add('hidden');
+    document.getElementById('step3').classList.add('hidden');
+    setDots(1);
+  }
+  function toStep2(){
+    const contact = document.getElementById('contact').value.trim();
+    if(!contact){ alert('Please enter your email or phone number.'); return; }
+    document.getElementById('step1').classList.add('hidden');
+    document.getElementById('step2').classList.remove('hidden');
+    document.getElementById('step3').classList.add('hidden');
+    setDots(2);
+  }
+  function toStep3(){
+    document.getElementById('step2').classList.add('hidden');
+    document.getElementById('step3').classList.remove('hidden');
+    document.getElementById('teamFields').classList.toggle('hidden', regType==='solo');
+    document.getElementById('soloFields').classList.toggle('hidden', regType==='team');
+    setDots(3);
+  }
+
+  const API_BASE = "https://astu-2-k-tournaments--allstarteamup2k.replit.app/api";
+
+  async function submitRegistration(){
+    const errorEl = document.getElementById('errorMsg');
+    errorEl.style.display = 'none';
+    const contact = document.getElementById('contact').value.trim();
+    const tournamentId = document.getElementById('tournament').value;
+    const platform = document.getElementById('platform').value;
+
+    let payload = {
+      type: regType,
+      contact: contact,
+      tournamentId: tournamentId,
+      platform: platform,
+    };
+
+    if(regType === 'team'){
+      const teamName = document.getElementById('teamName').value.trim();
+      const gts = [1,2,3,4,5].map(n => document.getElementById('gt'+n).value.trim());
+      if(!teamName || gts.some(g => !g)){
+        alert('Please fill in your team name and all 5 gamertags.');
+        return;
+      }
+      payload.teamName = teamName;
+      payload.gamertags = gts;
+    } else {
+      const gt = document.getElementById('soloGt').value.trim();
+      if(!gt){ alert('Please enter your gamertag.'); return; }
+      payload.gamertag = gt;
+    }
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+
+    try {
+      const res = await fetch(API_BASE + '/registrations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if(!res.ok){
+        const err = await res.json().catch(() => ({ error: 'Something went wrong.' }));
+        throw new Error(err.error || 'Something went wrong.');
+      }
+      const saved = await res.json();
+
+      document.getElementById('step3').classList.add('hidden');
+      document.getElementById('stepSuccess').classList.remove('hidden');
+      document.getElementById('successMsg').textContent = regType === 'team'
+        ? "Your team \"" + saved.teamName + "\" is saved. Complete the $50 team payment on your tournament page to confirm your bracket spot."
+        : "You're in the solo player pool for this tournament. Complete the $15 solo payment on your tournament page — we'll assign your team before the bracket drops.";
+      setDots(3);
+    } catch (e) {
+      errorEl.textContent = '⚠ ' + e.message + ' — please try again in a moment.';
+      errorEl.style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Complete Registration';
+    }
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin | All-Star Team-Up 2K Arena</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="logo.png">
+<style>
+  :root{
+    --bg:#000000; --bg-card:#131310; --bg-card-2:#1a1a15; --line:#2e2a1e;
+    --text:#f5f0e0; --muted:#a39c86; --gold-dark:#8a6d1f; --gold:#e0b023; --gold-bright:#ffd966; --silver:#c7c7cf;
+    --danger:#e5484d; --success:#3bd93b;
+    --grad: linear-gradient(90deg, var(--gold-dark), var(--gold-bright));
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--bg); color:var(--text); font-family:'Barlow', sans-serif; line-height:1.5;}
+  h1,h2,h3{font-family:'Anton'; font-weight:400; letter-spacing:0.5px; text-transform:uppercase;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+  a{color:inherit; text-decoration:none;}
+  button{font-family:'Barlow';}
+  .wrap{max-width:1280px; margin:0 auto; padding:0 20px;}
+
+  nav{position:sticky; top:0; z-index:50; background:rgba(0,0,0,0.94); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+  nav .row{max-width:1280px; margin:0 auto; padding:14px 24px; display:flex; align-items:center; justify-content:space-between;}
+  .brand{display:flex; align-items:center; gap:10px; font-family:'Anton'; font-size:16px;}
+  .brand img{height:28px; width:auto;}
+  .backlink{font-size:13px; font-weight:600; color:var(--muted);}
+  .backlink:hover{color:var(--gold);}
+
+  /* GATE */
+  .gate{min-height:70vh; display:flex; align-items:center; justify-content:center; padding:40px 20px;}
+  .gate-card{background:var(--bg-card); border:1px solid var(--line); border-radius:14px; padding:36px; max-width:380px; width:100%; text-align:center;}
+  .gate-card h2{margin-bottom:8px; font-size:22px;}
+  .gate-card p{color:var(--muted); font-size:13px; margin-bottom:20px;}
+  .gate-card input{
+    width:100%; background:var(--bg-card-2); border:1px solid var(--line); color:var(--text);
+    padding:13px 14px; border-radius:8px; font-size:15px; margin-bottom:14px; text-align:center; letter-spacing:2px;
+  }
+  .btn{padding:13px 22px; border-radius:8px; font-weight:800; font-size:13px; text-transform:uppercase; letter-spacing:0.5px; border:none; cursor:pointer; background:var(--grad); color:#101010;}
+  .btn-ghost{background:transparent; border:1px solid var(--line); color:var(--text);}
+  .btn-danger{background:rgba(229,72,77,0.15); color:#ff8a8e; border:1px solid rgba(229,72,77,0.4);}
+  .btn-sm{padding:8px 14px; font-size:11.5px;}
+  .btn:disabled{opacity:0.4; cursor:not-allowed;}
+
+  main{padding:36px 0 90px; display:none;}
+  .toolbar{display:flex; gap:12px; flex-wrap:wrap; align-items:center; justify-content:space-between; margin-bottom:28px;}
+  .toolbar select{
+    background:var(--bg-card); border:1px solid var(--line); color:var(--text); padding:12px 14px;
+    border-radius:8px; font-size:13px; font-family:'JetBrains Mono'; min-width:260px;
+  }
+  .stat-row{display:flex; gap:10px; flex-wrap:wrap;}
+  .stat-pill{background:var(--bg-card); border:1px solid var(--line); border-radius:8px; padding:10px 16px; font-family:'JetBrains Mono'; font-size:12px;}
+  .stat-pill b{color:var(--gold-bright); font-family:'Anton'; font-size:15px; display:block;}
+
+  .tabs{display:flex; gap:8px; margin-bottom:26px; flex-wrap:wrap; border-bottom:1px solid var(--line);}
+  .tab{padding:12px 18px; cursor:pointer; font-family:'JetBrains Mono'; font-size:12.5px; text-transform:uppercase; letter-spacing:0.5px; color:var(--muted); border-bottom:2px solid transparent;}
+  .tab.active{color:var(--gold-bright); border-bottom-color:var(--gold);}
+
+  .panel{display:none;}
+  .panel.active{display:block;}
+
+  table{width:100%; border-collapse:collapse; font-size:13.5px; background:var(--bg-card); border:1px solid var(--line); border-radius:10px; overflow:hidden;}
+  th{text-align:left; font-family:'JetBrains Mono'; font-size:10.5px; text-transform:uppercase; color:var(--muted); padding:12px 14px; border-bottom:1px solid var(--line); background:var(--bg-card-2);}
+  td{padding:12px 14px; border-bottom:1px solid var(--line); vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+  .gt-list{display:flex; flex-direction:column; gap:2px;}
+  .gt-list span{font-size:12.5px;}
+  .gt-list span.empty{color:var(--danger); font-style:italic;}
+  .badge{font-family:'JetBrains Mono'; font-size:10.5px; padding:3px 9px; border-radius:999px; display:inline-block;}
+  .badge-pending{background:rgba(224,176,35,0.12); color:var(--gold-bright);}
+  .badge-paid{background:rgba(59,217,59,0.12); color:var(--success);}
+  .empty-row{text-align:center; padding:40px 20px; color:var(--muted);}
+
+  .action-row{display:flex; gap:6px; flex-wrap:wrap;}
+
+  .card{background:var(--bg-card); border:1px solid var(--line); border-radius:12px; padding:22px; margin-bottom:18px;}
+  .card h3{font-size:16px; margin-bottom:10px;}
+  .card p{color:var(--muted); font-size:13px; margin-bottom:14px;}
+
+  /* BRACKET */
+  .bracket-controls{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:24px;}
+  .rr-schedule{display:flex; flex-direction:column; gap:8px; margin-bottom:24px;}
+  .rr-match{
+    display:grid; grid-template-columns:1fr auto 1fr; gap:12px; align-items:center; background:var(--bg-card);
+    border:1px solid var(--line); border-radius:8px; padding:12px 16px;
+  }
+  .rr-match .team{font-size:13.5px; font-weight:600;}
+  .rr-match select{background:var(--bg-card-2); border:1px solid var(--line); color:var(--text); padding:7px 10px; border-radius:6px; font-size:12px;}
+  .standings-table td, .standings-table th{padding:9px 14px;}
+
+  .bracket-scroll{overflow-x:auto; padding-bottom:16px;}
+  .bracket-cols{display:flex; gap:34px; min-width:max-content;}
+  .bracket-col{display:flex; flex-direction:column; justify-content:space-around; gap:20px; min-width:200px;}
+  .bracket-col .col-label{font-family:'JetBrains Mono'; font-size:10.5px; text-transform:uppercase; color:var(--muted); text-align:center; margin-bottom:8px;}
+  .match-box{background:var(--bg-card); border:1px solid var(--line); border-radius:8px; padding:10px; font-size:12.5px;}
+  .match-box .slot{padding:6px 8px; border-radius:5px; margin-bottom:4px; background:var(--bg-card-2); cursor:pointer;}
+  .match-box .slot.winner{background:rgba(224,176,35,0.15); color:var(--gold-bright); font-weight:700;}
+  .match-box .slot.tbd{color:var(--muted); font-style:italic; cursor:default;}
+  .match-box .slot:last-child{margin-bottom:0;}
+  .lb-col .match-box{border-color:rgba(229,72,77,0.3);}
+
+  footer{text-align:center; padding:30px 24px; color:var(--muted); font-size:12px;}
+</style>
+</head>
+<body>
+
+<nav><div class="row">
+  <div class="brand"><img src="logo.png" alt="Logo"> ADMIN DASHBOARD</div>
+  <a href="index.html" class="backlink">← Back to Site</a>
+</div></nav>
+
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <h2>🔒 Admin Access</h2>
+    <p>Enter your admin passcode to manage rosters and brackets.</p>
+    <input type="password" id="pass" placeholder="Passcode" onkeydown="if(event.key==='Enter')checkPass()">
+    <button class="btn" style="width:100%;" onclick="checkPass()">Enter Dashboard</button>
+    <p style="margin-top:14px; font-size:11px; color:var(--muted);">Use the <b class="mono">ADMIN_SECRET</b> you set in your Replit Secrets panel.</p>
+  </div>
+</div>
+
+<main id="main">
+  <div class="wrap">
+
+    <div class="toolbar">
+      <select id="tournamentFilter" onchange="renderAll()">
+        <option value="2k26-ps5">NBA 2K26 — PS5</option>
+        <option value="2k26-ps4">NBA 2K26 — PS4</option>
+        <option value="2k26-xbox-series">NBA 2K26 — Xbox Series X|S</option>
+        <option value="2k26-xbox-one">NBA 2K26 — Xbox One</option>
+        <option value="2k25-ps">NBA 2K25 — PS5 & PS4</option>
+        <option value="2k25-xbox-series">NBA 2K25 — Xbox Series X|S</option>
+        <option value="2k25-xbox-one">NBA 2K25 — Xbox One</option>
+      </select>
+      <div class="stat-row" id="statRow"></div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" data-tab="teams" onclick="switchTab('teams')">Teams</div>
+      <div class="tab" data-tab="solo" onclick="switchTab('solo')">Solo Pool</div>
+      <div class="tab" data-tab="bracket" onclick="switchTab('bracket')">Bracket Builder</div>
+    </div>
+
+    <!-- TEAMS PANEL -->
+    <div class="panel active" id="panel-teams">
+      <table>
+        <tr><th>Team</th><th>Roster (5)</th><th>Platform</th><th>Status</th><th>Contact</th><th></th></tr>
+        <tbody id="teamsBody"></tbody>
+      </table>
+    </div>
+
+    <!-- SOLO PANEL -->
+    <div class="panel" id="panel-solo">
+      <div class="card">
+        <h3>Auto-Assign Solo Players</h3>
+        <p>Groups every unassigned solo player in this tournament into balanced 5-man teams (in registration order) and adds them to the Teams list. Any leftover group of fewer than 5 stays in the pool until more solos register.</p>
+        <button class="btn" onclick="autoAssign()">🤝 Auto-Assign Into Teams</button>
+      </div>
+      <table>
+        <tr><th>Gamertag</th><th>Platform</th><th>Status</th><th>Contact</th><th></th></tr>
+        <tbody id="soloBody"></tbody>
+      </table>
+    </div>
+
+    <!-- BRACKET PANEL -->
+    <div class="panel" id="panel-bracket">
+      <div class="card">
+        <h3>1. Round Robin — Seeding Stage</h3>
+        <p>Generates a 3-game schedule per team using currently confirmed teams for this tournament. Set winners as games are played to build standings.</p>
+        <div class="bracket-controls">
+          <button class="btn" onclick="generateRoundRobin()">⚙️ Generate Round Robin Schedule</button>
+          <button class="btn btn-ghost" onclick="clearBracketData()">Clear Bracket Data</button>
+        </div>
+        <div id="rrScheduleWrap"></div>
+      </div>
+
+      <div class="card" id="standingsCard" style="display:none;">
+        <h3>Standings</h3>
+        <table class="standings-table">
+          <tr><th>Seed</th><th>Team</th><th>W</th><th>L</th></tr>
+          <tbody id="standingsBody"></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>2. Double Elimination Bracket</h3>
+        <p>Seeds the bracket from Round Robin standings (or registration order if Round Robin hasn't been played). Click a slot to set the winner and advance them.</p>
+        <div class="bracket-controls">
+          <button class="btn" onclick="generateBracket()">🏆 Generate / Rebuild Bracket</button>
+        </div>
+        <div class="bracket-scroll" id="bracketWrap"></div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>Designed by Elijah · © 2026 All-Star Team-Up 2K Arena · Admin Panel</footer>
+
+<script>
+  const API_BASE = "https://astu-2-k-tournaments--allstarteamup2k.replit.app/api";
+  let ADMIN_KEY = null;
+  let REGS_CACHE = [];
+
+  const tournamentNames = {
+    '2k26-ps5':'NBA 2K26 PS5', '2k26-ps4':'NBA 2K26 PS4', '2k26-xbox-series':'NBA 2K26 Xbox Series X|S',
+    '2k26-xbox-one':'NBA 2K26 Xbox One', '2k25-ps':'NBA 2K25 PS5 & PS4', '2k25-xbox-series':'NBA 2K25 Xbox Series X|S',
+    '2k25-xbox-one':'NBA 2K25 Xbox One'
+  };
+  const platformNames = { ps5:'PS5', ps4:'PS4', xbseries:'Xbox Series X|S', xbone:'Xbox One' };
+
+  async function checkPass(){
+    const v = document.getElementById('pass').value;
+    const btn = document.querySelector('#gate .btn');
+    btn.disabled = true; btn.textContent = 'Checking…';
+    try {
+      const res = await fetch(API_BASE + '/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: v }),
+      });
+      if(!res.ok) throw new Error('bad password');
+      ADMIN_KEY = v;
+      await loadRegistrations();
+      document.getElementById('gate').style.display = 'none';
+      document.getElementById('main').style.display = 'block';
+      renderAll();
+    } catch(e){
+      alert('Incorrect passcode.');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Enter Dashboard';
+    }
+  }
+
+  async function loadRegistrations(){
+    try {
+      const res = await fetch(API_BASE + '/registrations', { headers: { 'x-admin-key': ADMIN_KEY } });
+      REGS_CACHE = res.ok ? await res.json() : [];
+    } catch(e){
+      REGS_CACHE = [];
+      alert('Could not reach the server to load registrations. Check your connection and try again.');
+    }
+  }
+
+  function getRegs(){ return REGS_CACHE; }
+  function getBrackets(){ return JSON.parse(localStorage.getItem('astu_brackets') || '{}'); }
+  function saveBrackets(b){ localStorage.setItem('astu_brackets', JSON.stringify(b)); }
+  function currentTournament(){ return document.getElementById('tournamentFilter').value; }
+
+  function switchTab(t){
+    document.querySelectorAll('.tab').forEach(el => el.classList.toggle('active', el.dataset.tab === t));
+    document.querySelectorAll('.panel').forEach(el => el.classList.remove('active'));
+    document.getElementById('panel-'+t).classList.add('active');
+    if(t === 'bracket') renderBracketPanel();
+  }
+
+  function renderAll(){
+    const t = currentTournament();
+    const regs = getRegs().filter(r => r.tournamentId === t);
+    const teams = regs.filter(r => r.type === 'team');
+    const solos = regs.filter(r => r.type === 'solo' && !r.assigned);
+
+    document.getElementById('statRow').innerHTML = `
+      <div class="stat-pill"><b>${teams.length}</b>Teams Registered</div>
+      <div class="stat-pill"><b>${solos.length}</b>Solo Players Pending</div>
+      <div class="stat-pill"><b>${teams.length}/16</b>Bracket Capacity</div>
+    `;
+
+    document.getElementById('teamsBody').innerHTML = teams.length ? teams.map(team => `
+      <tr>
+        <td><b>${escapeHtml(team.teamName||'Unnamed')}</b></td>
+        <td><div class="gt-list">${(team.gamertags||[]).map(g => g ? `<span>${escapeHtml(g)}</span>` : `<span class="empty">open slot</span>`).join('')}</div></td>
+        <td>${platformNames[team.platform]||team.platform}</td>
+        <td><span class="badge ${team.status==='paid'?'badge-paid':'badge-pending'}">${team.status==='paid'?'Paid':'Pending Payment'}</span></td>
+        <td class="mono" style="font-size:11.5px;">${escapeHtml(team.contact)}</td>
+        <td class="action-row">
+          <button class="btn btn-sm ${team.status==='paid'?'btn-ghost':''}" onclick="markPaid('${team.id}')">${team.status==='paid'?'Paid ✓':'Mark Paid'}</button>
+          <button class="btn btn-sm btn-danger" onclick="removeReg('${team.id}')">Remove</button>
+        </td>
+      </tr>
+    `).join('') : `<tr><td colspan="6" class="empty-row">No teams registered yet for this tournament.</td></tr>`;
+
+    document.getElementById('soloBody').innerHTML = solos.length ? solos.map(s => `
+      <tr>
+        <td><b>${escapeHtml(s.gamertag||'Player')}</b></td>
+        <td>${platformNames[s.platform]||s.platform}</td>
+        <td><span class="badge ${s.status==='paid'?'badge-paid':'badge-pending'}">${s.status==='paid'?'Paid':'Pending Payment'}</span></td>
+        <td class="mono" style="font-size:11.5px;">${escapeHtml(s.contact)}</td>
+        <td class="action-row">
+          <button class="btn btn-sm ${s.status==='paid'?'btn-ghost':''}" onclick="markPaid('${s.id}')">${s.status==='paid'?'Paid ✓':'Mark Paid'}</button>
+          <button class="btn btn-sm btn-danger" onclick="removeReg('${s.id}')">Remove</button>
+        </td>
+      </tr>
+    `).join('') : `<tr><td colspan="5" class="empty-row">No solo players in the pool for this tournament.</td></tr>`;
+  }
+
+  async function markPaid(id){
+    const r = REGS_CACHE.find(x => x.id === id);
+    if(!r) return;
+    const newStatus = r.status === 'paid' ? 'pending_payment' : 'paid';
+    try {
+      await fetch(API_BASE + '/registrations/' + id, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'x-admin-key': ADMIN_KEY },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      await loadRegistrations();
+      renderAll();
+    } catch(e){
+      alert('Could not update — check your connection and try again.');
+    }
+  }
+
+  async function removeReg(id){
+    if(!confirm('Remove this registration? This cannot be undone.')) return;
+    try {
+      await fetch(API_BASE + '/registrations/' + id, {
+        method: 'DELETE',
+        headers: { 'x-admin-key': ADMIN_KEY },
+      });
+      await loadRegistrations();
+      renderAll();
+    } catch(e){
+      alert('Could not remove — check your connection and try again.');
+    }
+  }
+
+  async function autoAssign(){
+    const t = currentTournament();
+    let pool = REGS_CACHE.filter(r => r.tournamentId === t && r.type === 'solo' && !r.assigned);
+    if(pool.length < 5){ alert('Need at least 5 solo players to form a team. Currently: ' + pool.length); return; }
+
+    let createdCount = 0;
+    const btn = document.querySelector('#panel-solo .btn');
+    if(btn){ btn.disabled = true; btn.textContent = 'Assigning…'; }
+    try {
+      while(pool.length >= 5){
+        const batch = pool.splice(0, 5);
+        const newTeam = {
+          type: 'team',
+          contact: batch[0].contact,
+          tournamentId: t,
+          platform: batch[0].platform,
+          teamName: 'Solo Squad #' + (createdCount + 1) + '-' + Date.now().toString().slice(-4),
+          gamertags: batch.map(b => b.gamertag),
+        };
+        await fetch(API_BASE + '/registrations', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newTeam),
+        });
+        for(const b of batch){
+          await fetch(API_BASE + '/registrations/' + b.id, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json', 'x-admin-key': ADMIN_KEY },
+            body: JSON.stringify({ assigned: true, status: 'paid' }),
+          });
+        }
+        createdCount++;
+      }
+      await loadRegistrations();
+      renderAll();
+      alert(createdCount + ' team(s) auto-assembled from the solo pool.');
+    } catch(e){
+      alert('Something went wrong during auto-assign — check your connection and try again.');
+    } finally {
+      if(btn){ btn.disabled = false; btn.textContent = '🤝 Auto-Assign Into Teams'; }
+    }
+  }
+
+  function escapeHtml(s){
+    const d = document.createElement('div');
+    d.textContent = s || '';
+    return d.innerHTML;
+  }
+
+  /* ===================== BRACKET LOGIC ===================== */
+
+  function getConfirmedTeams(){
+    const t = currentTournament();
+    return getRegs().filter(r => r.tournamentId === t && r.type === 'team');
+  }
+
+  function renderBracketPanel(){
+    const t = currentTournament();
+    const brackets = getBrackets();
+    const data = brackets[t];
+    renderRoundRobin(data);
+    renderStandings(data);
+    renderBracket(data);
+  }
+
+  function generateRoundRobin(){
+    const t = currentTournament();
+    const teams = getConfirmedTeams();
+    if(teams.length < 8){ alert('Need at least 8 confirmed teams to generate the schedule. Currently: ' + teams.length); return; }
+    if(teams.length > 16){ alert('Max 16 teams per tournament — currently ' + teams.length + '. Remove some before generating.'); return; }
+
+    // Simple round-robin: each team gets 3 opponents via rotation
+    const ids = teams.map(x => x.id);
+    const n = ids.length;
+    const matches = [];
+    for(let round = 0; round < 3; round++){
+      const used = new Set();
+      for(let i = 0; i < n; i++){
+        if(used.has(ids[i])) continue;
+        const oppIndex = (i + round + 1) % n;
+        if(oppIndex === i || used.has(ids[oppIndex])) continue;
+        matches.push({ id: 'rr_' + round + '_' + i, round: round+1, teamA: ids[i], teamB: ids[oppIndex], winner: null });
+        used.add(ids[i]); used.add(ids[oppIndex]);
+      }
+    }
+
+    const brackets = getBrackets();
+    brackets[t] = brackets[t] || {};
+    brackets[t].teams = ids;
+    brackets[t].rrMatches = matches;
+    brackets[t].doubleElim = null;
+    saveBrackets(brackets);
+    renderBracketPanel();
+  }
+
+  function teamLabel(id){
+    if(!id) return 'TBD';
+    if(id === 'BYE') return 'BYE';
+    const teams = getRegs();
+    const team = teams.find(x => x.id === id);
+    return team ? team.teamName : 'Unknown';
+  }
+
+  function renderRoundRobin(data){
+    const wrap = document.getElementById('rrScheduleWrap');
+    if(!data || !data.rrMatches){ wrap.innerHTML = ''; return; }
+    const t = currentTournament();
+    wrap.innerHTML = '<div class="rr-schedule">' + data.rrMatches.map(m => `
+      <div class="rr-match">
+        <div class="team">${escapeHtml(teamLabel(m.teamA))}</div>
+        <select onchange="setRRWinner('${m.id}', this.value)">
+          <option value="">Round ${m.round} — Pick Winner</option>
+          <option value="${m.teamA}" ${m.winner===m.teamA?'selected':''}>${escapeHtml(teamLabel(m.teamA))} wins</option>
+          <option value="${m.teamB}" ${m.winner===m.teamB?'selected':''}>${escapeHtml(teamLabel(m.teamB))} wins</option>
+        </select>
+        <div class="team" style="text-align:right;">${escapeHtml(teamLabel(m.teamB))}</div>
+      </div>
+    `).join('') + '</div>';
+  }
+
+  function setRRWinner(matchId, winnerId){
+    const t = currentTournament();
+    const brackets = getBrackets();
+    const m = brackets[t].rrMatches.find(x => x.id === matchId);
+    m.winner = winnerId || null;
+    saveBrackets(brackets);
+    renderStandings(brackets[t]);
+  }
+
+  function renderStandings(data){
+    const card = document.getElementById('standingsCard');
+    if(!data || !data.rrMatches){ card.style.display = 'none'; return; }
+    card.style.display = 'block';
+    const record = {};
+    data.teams.forEach(id => record[id] = { w: 0, l: 0 });
+    data.rrMatches.forEach(m => {
+      if(!m.winner) return;
+      const loser = m.winner === m.teamA ? m.teamB : m.teamA;
+      if(record[m.winner]) record[m.winner].w++;
+      if(record[loser]) record[loser].l++;
+    });
+    const sorted = data.teams.slice().sort((a,b) => record[b].w - record[a].w);
+    document.getElementById('standingsBody').innerHTML = sorted.map((id, i) => `
+      <tr><td>#${i+1}</td><td>${escapeHtml(teamLabel(id))}</td><td>${record[id].w}</td><td>${record[id].l}</td></tr>
+    `).join('');
+  }
+
+  function nextPowerOf2(n){ let p = 1; while(p < n) p *= 2; return p; }
+
+  function generateBracket(){
+    const t = currentTournament();
+    const brackets = getBrackets();
+    const data = brackets[t] || {};
+    const teams = getConfirmedTeams();
+    if(teams.length < 8){ alert('Need at least 8 confirmed teams. Currently: ' + teams.length); return; }
+
+    // seed order: from standings if available, else registration order
+    let seedOrder;
+    if(data.rrMatches){
+      const record = {};
+      data.teams.forEach(id => record[id] = { w:0 });
+      data.rrMatches.forEach(m => { if(m.winner && record[m.winner]) record[m.winner].w++; });
+      seedOrder = data.teams.slice().sort((a,b) => record[b].w - record[a].w);
+    } else {
+      seedOrder = teams.map(x => x.id);
+    }
+
+    const size = nextPowerOf2(seedOrder.length);
+    while(seedOrder.length < size) seedOrder.push('BYE');
+
+    // Winners bracket round 1
+    const wbRounds = [];
+    const r1 = [];
+    for(let i = 0; i < size/2; i++){
+      r1.push({ id:'wb0_'+i, teamA: seedOrder[i], teamB: seedOrder[size-1-i], winner:null });
+    }
+    wbRounds.push(r1);
+    let matchCount = size/2;
+    let ri = 1;
+    while(matchCount > 1){
+      matchCount = matchCount/2;
+      const round = [];
+      for(let i=0;i<matchCount;i++) round.push({ id:'wb'+ri+'_'+i, teamA:null, teamB:null, winner:null });
+      wbRounds.push(round);
+      ri++;
+    }
+
+    // resolve byes immediately in WB round 1
+    wbRounds[0].forEach(m => {
+      if(m.teamB === 'BYE') m.winner = m.teamA;
+      else if(m.teamA === 'BYE') m.winner = m.teamB;
+    });
+    propagateWB(wbRounds);
+
+    // Losers bracket (simplified generic construction)
+    const lbRounds = buildLosersBracket(wbRounds);
+
+    brackets[t] = brackets[t] || {};
+    brackets[t].doubleElim = { wbRounds, lbRounds, grandFinal: { teamA:null, teamB:null, winner:null } };
+    brackets[t].teams = data.teams || teams.map(x=>x.id);
+    saveBrackets(brackets);
+    renderBracketPanel();
+  }
+
+  function propagateWB(wbRounds){
+    for(let r=0; r<wbRounds.length-1; r++){
+      wbRounds[r].forEach((m, i) => {
+        if(m.winner){
+          const nextMatch = wbRounds[r+1][Math.floor(i/2)];
+          if(i % 2 === 0) nextMatch.teamA = m.winner; else nextMatch.teamB = m.winner;
+        }
+      });
+    }
+  }
+
+  function buildLosersBracket(wbRounds){
+    // Generic simplified LB: round 0 pairs WB round0 losers; each subsequent LB round
+    // alternates intake of the next WB round's losers with internal survivor matches.
+    const lbRounds = [];
+    let survivors = null; // array of match refs representing current LB survivors slot count
+
+    // LB round 0: pair losers of WB round 0
+    const r0losers = wbRounds[0].map(m => m.teamA === m.winner ? m.teamB : (m.teamB===m.winner? m.teamA : null));
+    const lb0 = [];
+    for(let i=0;i<r0losers.length;i+=2){
+      lb0.push({ id:'lb0_'+(i/2), teamA:r0losers[i]||null, teamB:r0losers[i+1]||null, winner:null });
+    }
+    // resolve byes
+    lb0.forEach(m=>{ if(m.teamA==='BYE') m.winner=m.teamB; else if(m.teamB==='BYE') m.winner=m.teamA; });
+    lbRounds.push(lb0);
+
+    let lbIdx = 1;
+    for(let wr = 1; wr < wbRounds.length; wr++){
+      // intake round: previous LB survivors vs this WB round's losers
+      const prevLB = lbRounds[lbRounds.length-1];
+      const intake = [];
+      for(let i=0;i<prevLB.length;i++){
+        intake.push({ id:'lb'+lbIdx+'_'+i, teamA:null /* survivor TBD */, teamB:null /* WB loser TBD */, winner:null, fromLB:prevLB[i].id, fromWB:(wbRounds[wr][i]||{}).id });
+      }
+      lbRounds.push(intake);
+      lbIdx++;
+      if(intake.length > 1){
+        const internal = [];
+        for(let i=0;i<intake.length;i+=2){
+          internal.push({ id:'lb'+lbIdx+'_'+(i/2), teamA:null, teamB:null, winner:null, fromLBpair:[intake[i]?intake[i].id:null, intake[i+1]?intake[i+1].id:null] });
+        }
+        lbRounds.push(internal);
+        lbIdx++;
+      }
+    }
+    return lbRounds;
+  }
+
+  function resolveLBSlots(t, brackets){
+    const de = brackets[t].doubleElim;
+    if(!de) return;
+    const wbRounds = de.wbRounds, lbRounds = de.lbRounds;
+
+    // LB round 0 already has real teams. Propagate winners forward.
+    for(let r=0; r<lbRounds.length; r++){
+      lbRounds[r].forEach(m => {
+        if(m.fromLB){
+          const src = findMatchById(lbRounds, m.fromLB);
+          if(src && src.winner) m.teamA = src.winner;
+        }
+        if(m.fromWB){
+          const src = findMatchById(wbRounds, m.fromWB);
+          if(src && src.winner){
+            const loser = src.teamA === src.winner ? src.teamB : src.teamA;
+            m.teamB = loser;
+          }
+        }
+        if(m.fromLBpair){
+          const [aId,bId] = m.fromLBpair;
+          const srcA = aId ? findMatchById(lbRounds, aId) : null;
+          const srcB = bId ? findMatchById(lbRounds, bId) : null;
+          if(srcA && srcA.winner) m.teamA = srcA.winner;
+          if(srcB && srcB.winner) m.teamB = srcB.winner;
+        }
+        if(m.teamA === 'BYE' && m.teamB && !m.winner) m.winner = m.teamB;
+        if(m.teamB === 'BYE' && m.teamA && !m.winner) m.winner = m.teamA;
+      });
+    }
+
+    // Grand final
+    const wbFinal = wbRounds[wbRounds.length-1][0];
+    const lbFinal = lbRounds[lbRounds.length-1][0];
+    de.grandFinal.teamA = wbFinal ? wbFinal.winner : null;
+    de.grandFinal.teamB = lbFinal ? lbFinal.winner : null;
+  }
+
+  function findMatchById(rounds, id){
+    for(const round of rounds){ const m = round.find(x => x.id === id); if(m) return m; }
+    return null;
+  }
+
+  function setMatchWinner(bracket, roundArrName, matchId, winnerId){
+    const t = currentTournament();
+    const brackets = getBrackets();
+    const de = brackets[t].doubleElim;
+    const arr = roundArrName === 'wb' ? de.wbRounds : de.lbRounds;
+    const m = findMatchById(arr, matchId);
+    m.winner = winnerId;
+    if(roundArrName === 'wb') propagateWB(de.wbRounds);
+    resolveLBSlots(t, brackets);
+    saveBrackets(brackets);
+    renderBracket(brackets[t]);
+  }
+
+  function setGrandFinalWinner(winnerId){
+    const t = currentTournament();
+    const brackets = getBrackets();
+    brackets[t].doubleElim.grandFinal.winner = winnerId;
+    saveBrackets(brackets);
+    renderBracket(brackets[t]);
+  }
+
+  function matchBox(m, kind){
+    const aName = teamLabel(m.teamA);
+    const bName = teamLabel(m.teamB);
+    const canPickA = m.teamA && m.teamA !== 'BYE';
+    const canPickB = m.teamB && m.teamB !== 'BYE';
+    return `
+      <div class="match-box">
+        <div class="slot ${m.winner===m.teamA?'winner':''} ${!canPickA?'tbd':''}" ${canPickA?`onclick="setMatchWinner(null,'${kind}','${m.id}','${m.teamA}')"`:''}>${escapeHtml(aName)}</div>
+        <div class="slot ${m.winner===m.teamB?'winner':''} ${!canPickB?'tbd':''}" ${canPickB?`onclick="setMatchWinner(null,'${kind}','${m.id}','${m.teamB}')"`:''}>${escapeHtml(bName)}</div>
+      </div>`;
+  }
+
+  function renderBracket(data){
+    const wrap = document.getElementById('bracketWrap');
+    if(!data || !data.doubleElim){ wrap.innerHTML = '<p style="color:var(--muted); font-size:13px;">No bracket generated yet for this tournament.</p>'; return; }
+    const t = currentTournament();
+    const brackets = getBrackets();
+    resolveLBSlots(t, brackets);
+    saveBrackets(brackets);
+    const de = brackets[t].doubleElim;
+
+    let html = '<div class="bracket-cols">';
+    de.wbRounds.forEach((round, i) => {
+      html += `<div class="bracket-col"><div class="col-label">WB Round ${i+1}</div>` + round.map(m => matchBox(m,'wb')).join('') + `</div>`;
+    });
+    html += `<div class="bracket-col"><div class="col-label">🏆 Grand Final</div>
+      <div class="match-box">
+        <div class="slot ${de.grandFinal.winner===de.grandFinal.teamA?'winner':''} ${!de.grandFinal.teamA?'tbd':''}" ${de.grandFinal.teamA?`onclick="setGrandFinalWinner('${de.grandFinal.teamA}')"`:''}>${escapeHtml(teamLabel(de.grandFinal.teamA))}</div>
+        <div class="slot ${de.grandFinal.winner===de.grandFinal.teamB?'winner':''} ${!de.grandFinal.teamB?'tbd':''}" ${de.grandFinal.teamB?`onclick="setGrandFinalWinner('${de.grandFinal.teamB}')"`:''}>${escapeHtml(teamLabel(de.grandFinal.teamB))}</div>
+      </div>
+    </div>`;
+    html += '</div>';
+
+    html += '<div class="bracket-cols" style="margin-top:26px;">';
+    de.lbRounds.forEach((round, i) => {
+      html += `<div class="bracket-col lb-col"><div class="col-label" style="color:#e5484d;">LB Round ${i+1}</div>` + round.map(m => matchBox(m,'lb')).join('') + `</div>`;
+    });
+    html += '</div>';
+
+    wrap.innerHTML = html;
+  }
+
+  function clearBracketData(){
+    if(!confirm('Clear all Round Robin and bracket data for this tournament? This cannot be undone.')) return;
+    const t = currentTournament();
+    const brackets = getBrackets();
+    delete brackets[t];
+    saveBrackets(brackets);
+    renderBracketPanel();
+  }
+</script>
+
+</body>
+</html>

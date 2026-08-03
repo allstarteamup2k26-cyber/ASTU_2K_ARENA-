@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All-Star Team-Up 2K Arena | NBA 2K26 · Xbox Series X|S Tournament</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="logo.png">
+<style>
+  :root{
+    --bg:#000000;
+    --bg-card:#131310;
+    --bg-card-2:#1a1a15;
+    --line:#2e2a1e;
+    --text:#f5f0e0;
+    --muted:#a39c86;
+    --gold-dark:#8a6d1f;
+    --gold:#e0b023;
+    --gold-bright:#ffd966;
+    --silver:#c7c7cf;
+    --xbox:#107c10;
+    --xbox-glow:#3bd93b;
+    --grad: linear-gradient(90deg, var(--gold-dark), var(--gold-bright));
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Barlow', sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{font-family:'Anton', sans-serif; font-weight:400; letter-spacing:0.5px; text-transform:uppercase;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 24px;}
+  section{padding:80px 0;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono', monospace; font-size:12px; letter-spacing:1.5px;
+    text-transform:uppercase; color:var(--gold); border:1px solid rgba(224,176,35,0.3);
+    background:rgba(138,109,31,0.08); padding:6px 14px; border-radius:999px;
+  }
+
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,10,13,0.9); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; padding:14px 24px;}
+  .brand{display:flex; align-items:center; gap:10px; font-family:'Anton'; font-size:16px; letter-spacing:0.5px;}
+  .brand .platform-tag{
+    font-family:'JetBrains Mono'; font-size:11px; background:var(--xbox); color:#fff;
+    padding:3px 8px; border-radius:4px; letter-spacing:0.5px;
+  }
+  .navlinks{display:flex; gap:28px; font-size:14px; font-weight:600;}
+  .navlinks a:hover{color:var(--gold);}
+  .navcta{
+    background:var(--grad); color:#101010; font-weight:800; font-size:13px;
+    padding:10px 18px; border-radius:6px; text-transform:uppercase; letter-spacing:0.5px;
+  }
+  @media(max-width:800px){.navlinks{display:none;}}
+
+  /* HERO */
+  .hero{
+    position:relative; padding:90px 0 60px; overflow:hidden;
+    background:
+      radial-gradient(circle at 50% 30%, rgba(224,176,35,0.14), transparent 55%),
+      radial-gradient(circle at 80% 10%, rgba(16,124,16,0.10), transparent 40%),
+      #000000;
+    border-bottom:1px solid var(--line);
+  }
+  .hero::before{
+    content:""; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:800px; height:800px; max-width:140vw; max-height:140vw;
+    background:url('logo.png') center/contain no-repeat; opacity:0.09; pointer-events:none; z-index:0;
+  }
+  .hero .wrap{position:relative; z-index:1;}
+  .hero-badges{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:22px;}
+  .badge-xbox{
+    font-family:'JetBrains Mono'; font-size:12px; font-weight:700; letter-spacing:1px;
+    background:var(--xbox); color:#fff; padding:6px 12px; border-radius:6px;
+  }
+  .hero h1{font-size:clamp(38px,7vw,74px); line-height:1.02; margin:16px 0 18px;}
+  .hero h1 span{background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .hero p.sub{max-width:640px; color:var(--muted); font-size:18px; margin-bottom:32px;}
+  .hero-stats{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:0;
+    border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-bottom:36px;
+  }
+  .hero-stats div{padding:20px 16px; border-right:1px solid var(--line); background:var(--bg-card);}
+  .hero-stats div:last-child{border-right:none;}
+  .hero-stats .num{font-family:'Anton'; font-size:30px; background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .hero-stats .lbl{font-family:'JetBrains Mono'; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px;}
+  @media(max-width:700px){.hero-stats{grid-template-columns:repeat(2,1fr);} .hero-stats div{border-bottom:1px solid var(--line);}}
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    padding:15px 26px; border-radius:8px; font-weight:800; font-size:14px;
+    text-transform:uppercase; letter-spacing:0.5px; display:inline-block; transition:transform .15s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{background:var(--grad); color:#101010;}
+  .btn-ghost{border:1px solid var(--line); color:var(--text);}
+  .btn-xbox{background:var(--xbox); color:#fff;}
+
+  /* SECTION HEADERS */
+  .sec-head{margin-bottom:44px;}
+  .sec-head .eyebrow{margin-bottom:14px;}
+  .sec-head h2{font-size:clamp(28px,4vw,42px);}
+  .sec-head p{color:var(--muted); max-width:600px; margin-top:12px;}
+
+  /* ABOUT / FEATURE GRID */
+  .feat-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:18px;}
+  @media(max-width:900px){.feat-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:520px){.feat-grid{grid-template-columns:1fr;}}
+  .feat-card{
+    background:var(--bg-card); border:1px solid var(--line); border-radius:12px;
+    padding:26px 20px;
+  }
+  .feat-card .ico{font-size:26px; margin-bottom:14px;}
+  .feat-card h3{font-family:'Barlow'; font-weight:800; font-size:16px; text-transform:none; margin-bottom:8px;}
+  .feat-card p{color:var(--muted); font-size:14px;}
+
+  /* REGISTER */
+  .price-grid{display:grid; grid-template-columns:1fr 1fr; gap:22px;}
+  @media(max-width:750px){.price-grid{grid-template-columns:1fr;}}
+  .price-card{
+    background:var(--bg-card); border:1px solid var(--line); border-radius:14px; padding:32px;
+    position:relative;
+  }
+  .price-card.popular{border-color:var(--gold); box-shadow:0 0 0 1px var(--gold) inset;}
+  .price-card .tag{
+    position:absolute; top:-12px; left:28px; background:var(--grad); color:#101010;
+    font-family:'JetBrains Mono'; font-size:11px; font-weight:700; padding:4px 12px; border-radius:999px;
+  }
+  .price-card .amt{font-family:'Anton'; font-size:44px; margin:14px 0 4px;}
+  .price-card .amt-sub{color:var(--muted); font-size:13px; margin-bottom:20px;}
+  .price-card ul{list-style:none; margin:20px 0; display:flex; flex-direction:column; gap:10px;}
+  .price-card li{font-size:14px; color:#d5d5db; padding-left:22px; position:relative;}
+  .price-card li::before{content:"✓"; position:absolute; left:0; color:var(--gold); font-weight:700;}
+  .price-card .btn{width:100%; text-align:center; margin-top:10px;}
+
+  .min-notice{
+    margin-top:26px; background:rgba(16,124,16,0.08); border:1px solid rgba(16,124,16,0.35);
+    border-radius:10px; padding:18px 22px; font-size:14px; color:#c9f2c9;
+  }
+  .min-notice b{color:var(--xbox-glow);}
+
+  /* RULES */
+  .rules-list{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media(max-width:750px){.rules-list{grid-template-columns:1fr;}}
+  .rule-item{background:var(--bg-card); border:1px solid var(--line); border-radius:10px; padding:20px;}
+  .rule-item .rn{font-family:'JetBrains Mono'; color:var(--gold); font-size:12px; margin-bottom:6px;}
+  .rule-item h4{font-family:'Barlow'; font-weight:800; font-size:15px; text-transform:none; margin-bottom:6px;}
+  .rule-item p{font-size:13.5px; color:var(--muted);}
+  .settings-box{
+    background:var(--bg-card-2); border:1px solid var(--line); border-radius:10px; padding:20px; margin-top:16px;
+    font-family:'JetBrains Mono'; font-size:13.5px; display:grid; grid-template-columns:repeat(2,1fr); gap:10px;
+  }
+  @media(max-width:520px){.settings-box{grid-template-columns:1fr;}}
+
+  /* SCHEDULE TABLE */
+  table{width:100%; border-collapse:collapse; font-size:14px;}
+  th{
+    text-align:left; font-family:'JetBrains Mono'; font-size:11px; text-transform:uppercase;
+    color:var(--muted); padding:12px 14px; border-bottom:1px solid var(--line);
+  }
+  td{padding:14px; border-bottom:1px solid var(--line); color:#d5d5db;}
+  tr:last-child td{border-bottom:none;}
+  .status{font-family:'JetBrains Mono'; font-size:11px; padding:3px 10px; border-radius:999px; background:rgba(224,176,35,0.12); color:var(--gold);}
+
+  /* PRIZE */
+  .prize-row{display:flex; gap:18px; flex-wrap:wrap; justify-content:center; margin-top:10px;}
+  .prize-card{background:var(--bg-card); border:1px solid var(--line); border-radius:12px; padding:26px 34px; text-align:center; min-width:140px;}
+  .prize-card .medal{font-size:28px;}
+  .prize-card .amt{font-family:'Anton'; font-size:28px; color:var(--gold); margin:6px 0;}
+
+  /* CTA BAND */
+  .cta-band{
+    background:linear-gradient(120deg, rgba(138,109,31,0.12), rgba(16,124,16,0.12));
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    text-align:center; padding:70px 24px;
+  }
+  .cta-band h2{font-size:clamp(28px,5vw,46px); margin-bottom:14px;}
+  .cta-band p{color:var(--muted); margin-bottom:28px;}
+
+  footer{padding:50px 24px 30px; text-align:center; color:var(--muted); font-size:13px;}
+  footer .flinks{display:flex; gap:20px; justify-content:center; margin-bottom:18px; flex-wrap:wrap; font-weight:600; color:var(--text);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand"><img src="logo.png" alt="All-Star Team-Up 2K Arena" style="height:30px; width:auto;"> ALL-STAR TEAM-UP <span class="platform-tag">XBOX SERIES X|S</span></div>
+    <div class="navlinks">
+      <a href="#about">About</a>
+      <a href="#register">Register</a>
+      <a href="#rules">Rules</a>
+      <a href="#schedule">Schedule</a>
+      <a href="#staff">Staff</a>
+    </div>
+    <a href="#register" class="navcta">Sign Up →</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-badges">
+      <span class="eyebrow">Season 1 · Registration Closes Aug 10, 2026</span>
+      <span class="badge-xbox">🎮 XBOX SERIES X|S</span>
+    </div>
+    <h1>ALL-STAR TEAM UP<br><span>5v5 TOURNAMENT</span></h1>
+    <p class="sub">NBA 2K26 on Xbox Series X|S. Private lobby, Hall of Fame difficulty, East vs West. Round Robin seeding into a full Double Elimination bracket. Register as a squad or go solo — we'll build your team.</p>
+
+    <div class="mono" style="font-size:12.5px; letter-spacing:0.5px; color:var(--gold); margin-bottom:26px; text-transform:uppercase;">🔒 Private All-Star Team-Up &middot; Only Real NBA Players — Old School to New School &middot; Fair Competition &middot; Who&#39;s Gonna Own the Locker Room?</div>
+
+    <div class="hero-stats">
+      <div><div class="num">8–16</div><div class="lbl">Teams (Min–Max)</div></div>
+      <div><div class="num">$450</div><div class="lbl">Prize Pool</div></div>
+      <div><div class="num">5v5</div><div class="lbl">Format</div></div>
+      <div><div class="num">HOF</div><div class="lbl">Difficulty</div></div>
+    </div>
+
+    <div class="cta-row">
+      <a href="#register" class="btn btn-primary">Register Now</a>
+      <a href="#rules" class="btn btn-ghost">Read the Rules</a>
+      <a href="#schedule" class="btn btn-ghost">View Schedule</a>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">About the Tournament</span>
+      <h2>Built for Xbox. Same Standard.</h2>
+      <p>The first All-Star Team-Up tournament built specifically for Xbox Series X|S. Same private-lobby format, same Hall of Fame standard, same real prize money as our PlayStation brackets — now on your platform.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="ico">🏆</div>
+        <h3>Real Prize Money</h3>
+        <p>$300 to 1st · $100 to 2nd · $50 to 3rd. Paid within 7 days of the Finals via PayPal, Venmo, or Cash App.</p>
+      </div>
+      <div class="feat-card">
+        <div class="ico">🎮</div>
+        <h3>5v5 · Hall of Fame Only</h3>
+        <p>Round Robin group stage (3 games) into a full Double Elimination bracket. HOF difficulty — no exceptions.</p>
+      </div>
+      <div class="feat-card">
+        <div class="ico">🤝</div>
+        <h3>Solo Queue System</h3>
+        <p>No squad? Pay $15, get matched with 4 other solo players at your skill level, compete as a team.</p>
+      </div>
+      <div class="feat-card">
+        <div class="ico">📡</div>
+        <h3>Live Results</h3>
+        <p>Grand Finals broadcast live. All other match results and standings posted live in Discord.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="register" style="background:var(--bg-card); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Register Your Spot</span>
+      <h2>Come as a Squad, or Come Solo</h2>
+    </div>
+
+    <div class="price-grid">
+      <div class="price-card popular">
+        <span class="tag">Most Popular</span>
+        <div class="mono" style="color:var(--muted); font-size:13px;">FULL TEAM ENTRY</div>
+        <div class="amt">$50</div>
+        <div class="amt-sub">Per team · One payment by the captain</div>
+        <ul>
+          <li>Covers all 5 players on your roster</li>
+          <li>You choose your team name & lineup</li>
+          <li>1 registered substitute allowed</li>
+          <li>Priority bracket seeding placement</li>
+          <li>Captain receives prize payout directly</li>
+        </ul>
+        <a href="https://buy.stripe.com/28E28r8QN4rsbNMf6cefC0k" class="btn btn-xbox">Pay $50 — Team Entry (Xbox)</a>
+      </div>
+
+      <div class="price-card">
+        <div class="mono" style="color:var(--muted); font-size:13px;">SOLO QUEUE ENTRY</div>
+        <div class="amt">$15</div>
+        <div class="amt-sub">Per player · We build your team</div>
+        <ul>
+          <li>Pay $15 — we assign you to a team</li>
+          <li>Matched by skill level with other solos</li>
+          <li>Meet teammates in a private Discord channel</li>
+          <li>Compete for the $450 prize pool</li>
+          <li>Great way to find your new 2K crew</li>
+        </ul>
+        <a href="https://buy.stripe.com/7sY3cveb7cXY6tsaPWefC0l" class="btn btn-ghost">Pay $15 — Solo Entry (Xbox)</a>
+      </div>
+    </div>
+
+    <div class="min-notice">
+      ⚠ <b>8 teams minimum</b> required to run this tournament (16 max). <b>Registration closes August 10, 2026.</b> If fewer than 8 register by the deadline, all registered players get a <b>full refund</b> and the bracket rolls to the next season.
+    </div>
+
+    <div class="prize-row">
+      <div class="prize-card"><div class="medal">🥇</div><div class="amt">$300</div><div class="mono" style="font-size:11px; color:var(--muted);">1ST PLACE</div></div>
+      <div class="prize-card"><div class="medal">🥈</div><div class="amt">$100</div><div class="mono" style="font-size:11px; color:var(--muted);">2ND PLACE</div></div>
+      <div class="prize-card"><div class="medal">🥉</div><div class="amt">$50</div><div class="mono" style="font-size:11px; color:var(--muted);">3RD PLACE</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="rules">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Official Rules</span>
+      <h2>Locker Room Setup</h2>
+      <p>The higher-seeded team captain creates the locker room and invites the opposing captain. Before tip-off, screenshot the settings and submit with the result. Required settings — no exceptions:</p>
+    </div>
+
+    <div class="settings-box">
+      <div>🏀 Mode: All-Star Team Up</div>
+      <div>🔒 Privacy: Private</div>
+      <div>⚠️ Difficulty: Hall of Fame</div>
+      <div>⏱ Quarter Length: 5 Minutes</div>
+      <div>🗺 Teams: West vs East</div>
+      <div>🎮 Platform: Xbox Series X|S Only</div>
+    </div>
+
+    <div style="height:36px;"></div>
+
+    <div class="rules-list">
+      <div class="rule-item">
+        <div class="rn">01</div>
+        <h4>Registration & Payment</h4>
+        <p>Teams pay $50 (captain pays once for all 5). Solo players pay $15 each. Spots confirmed after payment only. No refunds after bracket seeding.</p>
+      </div>
+      <div class="rule-item">
+        <div class="rn">02</div>
+        <h4>Roster Rules</h4>
+        <p>Each team must have exactly 5 registered players plus 1 optional substitute registered before the bracket is released.</p>
+      </div>
+      <div class="rule-item">
+        <div class="rn">03</div>
+        <h4>Age Requirement</h4>
+        <p>All players must be 18+. Players 13–17 may compete with written parental consent submitted at registration.</p>
+      </div>
+      <div class="rule-item">
+        <div class="rn">04</div>
+        <h4>Match Format</h4>
+        <p>Round Robin (3 games) determines seeding. Double Elimination bracket follows — best of 3, best of 5 in Grand Finals.</p>
+      </div>
+      <div class="rule-item">
+        <div class="rn">05</div>
+        <h4>Scheduling</h4>
+        <p>Captains have 48 hours to coordinate match times after bracket release. All scheduling confirmed in #scheduling. All times ET.</p>
+      </div>
+      <div class="rule-item">
+        <div class="rn">06</div>
+        <h4>No Cheating</h4>
+        <p>Exploits, hacks, macros, or outside assistance = immediate disqualification and permanent ban. First offense is final.</p>
+      </div>
+      <div class="rule-item">
+        <div class="rn">07</div>
+        <h4>Reporting Results</h4>
+        <p>Winning captain posts a screenshot/score in #results within 1 hour of match completion. Both captains must confirm.</p>
+      </div>
+      <div class="rule-item">
+        <div class="rn">08</div>
+        <h4>Prize Payout</h4>
+        <p>Paid to winning captain via PayPal, Venmo, or Cash App within 7 days of Finals. 30-day claim window.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="schedule" style="background:var(--bg-card); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Match Schedule</span>
+      <h2>Season 1 · Xbox Series X|S</h2>
+    </div>
+    <div style="overflow-x:auto;">
+      <table>
+        <tr><th>Phase</th><th>Round</th><th>Dates (ET)</th><th>Status</th></tr>
+        <tr><td>Round Robin</td><td>Group Stage — Games 1–3</td><td>TBD</td><td><span class="status">Upcoming</span></td></tr>
+        <tr><td>Seeding</td><td>Rankings Published</td><td>TBD</td><td><span class="status">TBD</span></td></tr>
+        <tr><td>Double Elim</td><td>Winners / Losers Bracket R1–4</td><td>TBD</td><td><span class="status">TBD</span></td></tr>
+        <tr><td>🏆 Grand Finals</td><td>Best of 5 · Live Streamed</td><td>TBD</td><td><span class="status">TBD</span></td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="staff">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Staff & Contact</span>
+      <h2>Questions? Reach Out.</h2>
+    </div>
+    <div class="feat-grid" style="grid-template-columns:repeat(2,1fr);">
+      <div class="feat-card">
+        <div class="ico">🎯</div>
+        <h3>Elijah Martinez — Tournament Organizer</h3>
+        <p>Bracket seeding, prize payouts, final dispute rulings. Discord: @all_star_team_up</p>
+      </div>
+      <div class="feat-card">
+        <div class="ico">📬</div>
+        <h3>Register & Get In Touch</h3>
+        <p>Join the All-Star Team-Up 2K Arena Discord for Xbox channel updates, scheduling, and results.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <span class="eyebrow" style="margin-bottom:16px; display:inline-flex;">👑 Spots Are Filling Fast</span>
+  <h2>Are You Ready, Xbox?</h2>
+  <p>8 teams needed to lock this bracket in. $450 on the line. Register your squad or go solo today.</p>
+  <a href="#register" class="btn btn-xbox">Register a Team — $50</a>
+</div>
+
+<footer>
+  <div class="flinks">
+    <a href="#about">About</a>
+    <a href="#register">Register</a>
+    <a href="#rules">Rules</a>
+    <a href="#schedule">Schedule</a>
+    <a href="https://discord.gg/vWE3Qk5HhE">Discord</a>
+    <a href="index.html">← Back to All Tournaments</a>
+  </div>
+  © 2026 NBA 2K26 All-Star Team-Up 2K Arena — Xbox Series X|S Tournament · Organized by Elijah Martinez · @all_star_team_up · Not affiliated with 2K Sports, the NBA, or Microsoft/Xbox
+  <div style="margin-top:14px; font-family:'JetBrains Mono'; font-size:11.5px; color:var(--muted);">Designed by Elijah</div>
+</footer>
+
+</body>
+</html>
