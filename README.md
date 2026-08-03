@@ -2,7 +2,7 @@
 
 Private 5v5 NBA 2K tournaments — real NBA All-Stars only, Hall of Fame difficulty, real cash prizes.
 
-🌐 **Live site:** https://allstarteamup2k26-cyber.github.io/All-Star-Team-Up-2k-Arena/
+🌐 **Live site:** https://allstarteamup2k26-cyber.github.io/ASTU_2K_ARENA-/
 💬 **Discord:** https://discord.gg/vWE3Qk5HhE
 📸 **Social:** [@all_star_team_up](https://instagram.com/all_star_team_up)
 
