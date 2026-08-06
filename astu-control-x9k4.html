@@ -135,6 +135,7 @@
         <option value="2k25-xbox-one">NBA 2K25 — Xbox One</option>
       </select>
       <div class="stat-row" id="statRow"></div>
+      <button class="btn btn-ghost" style="width:auto; padding:9px 16px;" onclick="exportCSV()">⬇ Export Contact List (CSV)</button>
     </div>
 
     <div class="tabs">
@@ -248,6 +249,45 @@
   function getBrackets(){ return JSON.parse(localStorage.getItem('astu_brackets') || '{}'); }
   function saveBrackets(b){ localStorage.setItem('astu_brackets', JSON.stringify(b)); }
   function currentTournament(){ return document.getElementById('tournamentFilter').value; }
+
+  function csvEscape(val){
+    const s = (val === null || val === undefined) ? '' : String(val);
+    if(s.includes(',') || s.includes('"') || s.includes('\n')){
+      return '"' + s.replace(/"/g, '""') + '"';
+    }
+    return s;
+  }
+
+  function exportCSV(){
+    if(!REGS_CACHE.length){
+      alert('No registrations to export yet.');
+      return;
+    }
+    const headers = ['Type', 'Tournament', 'Team Name', 'Gamertag(s)', 'Platform', 'Contact', 'Status', 'Assigned', 'Registered At'];
+    const rows = REGS_CACHE.map(r => [
+      r.type,
+      tournamentNames[r.tournamentId] || r.tournamentId,
+      r.teamName || '',
+      r.type === 'team' ? (r.gamertags || []).join(' | ') : (r.gamertag || ''),
+      r.platform,
+      r.contact,
+      r.status,
+      r.assigned ? 'yes' : 'no',
+      r.createdAt || '',
+    ]);
+
+    const csv = [headers, ...rows].map(row => row.map(csvEscape).join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const stamp = new Date().toISOString().slice(0,10);
+    a.href = url;
+    a.download = `astu-contact-list-${stamp}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
 
   function switchTab(t){
     document.querySelectorAll('.tab').forEach(el => el.classList.toggle('active', el.dataset.tab === t));
